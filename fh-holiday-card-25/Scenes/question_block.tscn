@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://cyofyf6i3at0q"]
+
+[ext_resource type="Texture2D" uid="uid://ciixn4gwtacbi" path="res://Assets/Level Assets/Blocks.jpg" id="1_l6yht"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3o4kp"]
+atlas = ExtResource("1_l6yht")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_11yax"]
+atlas = ExtResource("1_l6yht")
+region = Rect2(34, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hjt4u"]
+atlas = ExtResource("1_l6yht")
+region = Rect2(17, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0tb1o"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3o4kp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_11yax")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hjt4u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_11yax")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3o4kp")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Question_Block" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_0tb1o")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.16451165

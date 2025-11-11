@@ -1,0 +1,128 @@
+[gd_scene load_steps=12 format=3 uid="uid://jbhlynff10qc"]
+
+[ext_resource type="Script" uid="uid://ct3tm7x4obrno" path="res://Scripts/player.gd" id="1_cvnsp"]
+[ext_resource type="Script" uid="uid://qdbbb2ifciat" path="res://Scripts/player_animator.gd" id="2_6t5aa"]
+[ext_resource type="Texture2D" uid="uid://cewqwd86782ji" path="res://Assets/Player/PlayerTilesetSmall.png" id="2_cvnsp"]
+[ext_resource type="AudioStream" uid="uid://2l3jfqkehwju" path="res://Assets/Sound/jump.mp3" id="4_vgqql"]
+[ext_resource type="AudioStream" uid="uid://behfm7hkwxdyf" path="res://Assets/Sound/christmas_eve_sarajevo.mp3" id="5_fkybt"]
+
+[sub_resource type="Animation" id="Animation_fkybt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerAnimator/PlayerSprites:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 16, 16)]
+}
+
+[sub_resource type="Animation" id="Animation_x3wgy"]
+resource_name = "idle"
+loop_mode = 1
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerAnimator/PlayerSprites:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 16, 16)]
+}
+
+[sub_resource type="Animation" id="Animation_3smsa"]
+resource_name = "jump"
+loop_mode = 1
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerAnimator/PlayerSprites:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(64, 0, 16, 16)]
+}
+
+[sub_resource type="Animation" id="Animation_vgqql"]
+resource_name = "Walk"
+length = 0.3
+loop_mode = 1
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerAnimator/PlayerSprites:region_rect")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Rect2(16, 0, 16, 16), Rect2(32, 0, 16, 16), Rect2(48, 0, 16, 16)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8erm5"]
+_data = {
+&"RESET": SubResource("Animation_fkybt"),
+&"idle": SubResource("Animation_x3wgy"),
+&"jump": SubResource("Animation_3smsa"),
+&"walk": SubResource("Animation_vgqql")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cvnsp"]
+size = Vector2(12, 16)
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_cvnsp")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(0, -96)
+limit_left = 0
+limit_top = 96
+limit_right = 4912
+limit_bottom = 352
+limit_smoothed = true
+
+[node name="PlayerAnimator" type="Node2D" parent="." node_paths=PackedStringArray("player_cont")]
+script = ExtResource("2_6t5aa")
+player_cont = NodePath("..")
+
+[node name="PlayerAnimations" type="AnimationPlayer" parent="PlayerAnimator"]
+unique_name_in_owner = true
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_8erm5")
+}
+autoplay = "idle"
+speed_scale = 1.3
+
+[node name="PlayerSprites" type="Sprite2D" parent="PlayerAnimator"]
+unique_name_in_owner = true
+texture = ExtResource("2_cvnsp")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="bodybox" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_cvnsp")
+
+[node name="JumpSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_vgqql")
+volume_db = -5.0
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_fkybt")
+volume_db = -10.0
+autoplay = true
+parameters/looping = false
